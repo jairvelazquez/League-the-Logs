@@ -3,7 +3,6 @@
 ## Preview
 Pending... But I can leave you this pretty picture for you
 https://cdn.pixabay.com/photo/2017/06/21/16/57/poro-2427842_960_720.jpg
-## Status
 
 ## Download and Installation
 
