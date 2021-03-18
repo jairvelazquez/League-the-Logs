@@ -11243,3 +11243,14 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.productList{
+
+  width: auto;
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.productList .tr{
+  margin: 5rem;
+}
