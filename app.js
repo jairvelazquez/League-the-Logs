@@ -10,7 +10,11 @@ router.get('/',function(req,res){
     //__dirname : It will resolve to your project folder.
 });
 
-app.use('/public', express.static(__dirname + '/public'));
+app.use('/img', express.static(__dirname + '/img'));
+app.use('/css', express.static(__dirname + '/css'));
+app.use('/scss', express.static(__dirname + '/scss'));
+app.use('/vendor', express.static(__dirname + '/vendor'));
+app.use('/js', express.static(__dirname + '/js'));
 
 app.use('/', router)
 // starting the server
