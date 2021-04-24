@@ -10,10 +10,7 @@ router.get('/',function(req,res){
     //__dirname : It will resolve to your project folder.
 });
 
-router.get('/img/AurelionSol_0.jpg',function(req,res){
-    res.sendFile(path.join(__dirname+'/img/AurelionSol_0.jpg'));
-    //__dirname : It will resolve to your project folder.
-});
+app.use('/public', express.static(__dirname + '/public'));
 
 app.use('/', router)
 // starting the server
