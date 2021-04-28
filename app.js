@@ -1,7 +1,9 @@
-const express = require("express")
-path = require("path")
+const express = require("express");
+const mongoose = require("mongoose");//Ola
+const path = require("path");
 const app = express();
 const router = express.Router();
+require('dotenv/config');//Ola
 app.set("port", process.env.PORT || 3000);
 app.use(express.urlencoded({ extended: false }));
 
@@ -78,6 +80,14 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/scss', express.static(__dirname + '/scss'));
 app.use('/vendor', express.static(__dirname + '/vendor'));
 app.use('/js', express.static(__dirname + '/js'));
+
+//Conexion a la DB
+mongoose.connect(
+    process.env.DB_CONNECTION,
+    { useNewUrlParser: true, useUnifiedTopology: true },  
+    () => console.log('connected to db')
+);
+
 
 app.use('/', router)
 // starting the server
