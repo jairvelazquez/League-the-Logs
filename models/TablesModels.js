@@ -8,10 +8,9 @@ const ChampionsSchema = mongoose.Schema({
 module.exports = mongoose.model('ChampionsModel', ChampionsSchema);
 
 const TeamsSchema = mongoose.Schema({
-
 	team_id:{ type: Number, required: true },
 	id_objectives:{ type: Schema.ObjectId, ref: "ObjectivesModel", required: true },
-    	winner:{ type: Boolean, required: true }
+    winner:{ type: Boolean, required: true }
 });
 
 module.exports = mongoose.model('TeamsModel', TeamsSchema);
