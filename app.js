@@ -1,15 +1,22 @@
 const express = require("express");
-const mongoose = require("mongoose");//Ola
+const mongoose = require("mongoose");
 const path = require("path");
 const app = express();
 const router = express.Router();
-require('dotenv/config');//Ola
-app.set("port", process.env.PORT || 3000);
+require('dotenv/config');
 app.use(express.urlencoded({ extended: false }));
+app.use('/resources/views/partials', express.static(__dirname + '/resources/views/partials'));
+app.use('/img', express.static(__dirname + '/img'));
+app.use('/css', express.static(__dirname + '/css'));
+app.use('/scss', express.static(__dirname + '/scss'));
+app.use('/vendor', express.static(__dirname + '/vendor'));
+app.use('/js', express.static(__dirname + '/js'));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/resources/views'));
+app.set("port", process.env.PORT || 3000);
 
 router.get('/',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/index.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('index');
 });
 router.get('/dashboard.html',function(req,res){
     res.sendFile(path.join(__dirname+'/resources/views/dashboard.html'));
@@ -72,14 +79,9 @@ router.get('/utilities-other.html',function(req,res){
     //__dirname : It will resolve to your project folder.
 });
 router.get('/index.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/index.html'));
+    res.sendFile(path.join(__dirname+'/resources/views/index.ejs'));
     //__dirname : It will resolve to your project folder.
 });
-app.use('/img', express.static(__dirname + '/img'));
-app.use('/css', express.static(__dirname + '/css'));
-app.use('/scss', express.static(__dirname + '/scss'));
-app.use('/vendor', express.static(__dirname + '/vendor'));
-app.use('/js', express.static(__dirname + '/js'));
 
 //Conexion a la DB
 mongoose.connect(
