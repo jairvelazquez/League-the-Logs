@@ -75,6 +75,7 @@ router.get('/index.html',function(req,res){
     res.sendFile(path.join(__dirname+'/resources/views/index.html'));
     //__dirname : It will resolve to your project folder.
 });
+
 app.use('/img', express.static(__dirname + '/img'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/scss', express.static(__dirname + '/scss'));
