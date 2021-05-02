@@ -19,68 +19,49 @@ router.get('/',function(req,res){
     res.render('index');
 });
 router.get('/dashboard.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/dashboard.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('dashboard');
 });
 router.get('/404.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/404.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('404');
 });
 router.get('/blank.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/blank.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('blank');
 });
 router.get('/buttons.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/buttons.html'));
-    //__dirname : It will resolve to your project folder.
-});
-router.get('/buttons.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/buttons.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('buttons');
 });
 router.get('/cards.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/cards.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('cards');
 });
 router.get('/charts.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/charts.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('charts');
 });
 router.get('/dashboard.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/dashboard.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('dashboard');
 });
 router.get('/forgot-password.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/forgot-password.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('forgot-password');
 });
 router.get('/register.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/register.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('register');
 });
 router.get('/tables.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/tables.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('tables');
 });
 router.get('/utilities-animation.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/utilities-animation.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('utilities-animation');
 });
 router.get('/utilities-border.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/utilities-border.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('utilities-border');
 });
 router.get('/utilities-color.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/utilities-color.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('utilities-color');
 });
 router.get('/utilities-other.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/utilities-other.html'));
-    //__dirname : It will resolve to your project folder.
+    res.render('utilities-other');
 });
 router.get('/index.html',function(req,res){
-    res.sendFile(path.join(__dirname+'/resources/views/index.ejs'));
-    //__dirname : It will resolve to your project folder.
+    res.render('index');
 });
 
 //Conexion a la DB
