@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const ChampionsSchema = mongoose.Schema({
 
+const ChampionsSchema = mongoose.Schema({
 	id_champion:{ type: Number, required: true },
 	champion_name:{ type: Number, required: true }
 });
@@ -9,7 +9,7 @@ module.exports = mongoose.model('ChampionsModel', ChampionsSchema);
 
 const TeamsSchema = mongoose.Schema({
 	team_id:{ type: Number, required: true },
-	id_objectives:{ type: Schema.ObjectId, ref: "ObjectivesModel", required: true },
+	id_objectives:{ type: mongoose.Schema.ObjectId, ref: "ObjectivesModel", required: true },
     winner:{ type: Boolean, required: true }
 });
 
@@ -32,7 +32,7 @@ module.exports = mongoose.model('ObjectivesModel', ObjectivesSchema);
 const BanSchema = mongoose.Schema({
 
 	ban: {type: Number,  required: true},
-	bannedChamp: {type: Schema.ObjectId, ref:"ChampionsModels", required: true},
+	bannedChamp: {type: mongoose.Schema.ObjectId, ref:"ChampionsModels", required: true},
 	nombre: {type: String, required: true},
 	level: {type: Number, required: true},
 	primaryRol: {type: String, required: true},
@@ -76,7 +76,7 @@ const SummonerSchema = mongoose.Schema({
 
 module.exports = mongoose.model('SummonerModel', SummonerSchema);
 
-const SummonerGamesSchema = new Schema({
+const SummonerGamesSchema =  mongoose.Schema({
     id_summoner: {type:String, required:true},
     id_game:{type:Number, required:true},
     id_champ: {type:Number, required:true},
@@ -92,7 +92,7 @@ const SummonerGamesSchema = new Schema({
 
 module.exports = mongoose.model('SumonnerGamesModels', SummonerGamesSchema)
 
-const GamesSchema = new Schema({
+const GamesSchema =  mongoose.Schema({
     id_game: {type:Number, required:true},
     map: {type:String, required:true},
     mode: {type:String, required:true}, 
@@ -105,7 +105,7 @@ const GamesSchema = new Schema({
 
 module.exports = mongoose.model('GamesModels', GamesSchema)
 
-const TopPlayersSchema = new Schema({
+const TopPlayersSchema =  mongoose.Schema({
     summoner_id: {type:String,required:true},
     summoner_name: {type:String,required:true},
     server: {type:String,required:true},

@@ -63,14 +63,9 @@ router.get('/utilities-other.html',function(req,res){
 router.get('/index.html',function(req,res){
     res.render('index');
 });
-
-//Conexion a la DB
-mongoose.connect(
-    process.env.DB_CONNECTION,
-    { useNewUrlParser: true, useUnifiedTopology: true },  
-    () => console.log('connected to db')
-);
-
+const uri = process.env.DB_CONNECTION;
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
+const db = mongoose.createConnection(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use('/', router)
 // starting the server
