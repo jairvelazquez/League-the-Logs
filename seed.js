@@ -7,7 +7,7 @@ if (uri) {
   mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
   console.log("Entra aquí");
   var count = 0;
-  var num_records = 3;
+  var num_records = 20;
 
   for (var i = 0; i < num_records; i++) {
     const champ = new Champions(
@@ -17,7 +17,7 @@ if (uri) {
       },
     );
     champ.save();
-    console.log("Id campeon: "+ champ.id_champion);
+    console.log("ID campeon: "+ champ.id_champion);
     count++;
     if (count >= num_records) {
       //mongoose.connection.close();
