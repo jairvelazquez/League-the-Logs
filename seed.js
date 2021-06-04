@@ -1,7 +1,7 @@
 var faker = require("faker");
 var Champions = require("./models/ChampionsModel");
 var mongoose = require("mongoose");
-const uri = "mongodb+srv://root_jair:9vB2T0XzD2Z1tfyk@cluster0.a98v9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority2";
+//const uri = "mongodb+srv://root_roy:cowzEwl0lBU7dphZ@cluster0.iicdo.mongodb.net/test";
 console.log("Entra aquí");
 if (uri) {
   mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });

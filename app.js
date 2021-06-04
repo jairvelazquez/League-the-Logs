@@ -63,6 +63,28 @@ router.get('/utilities-other.html',function(req,res){
 router.get('/index.html',function(req,res){
     res.render('index');
 });
+const BansRoutes = require('./routes/BanRoutes');
+app.use('/bans', BansRoutes);
+const ChampionsRoutes = require('./routes/ChampionsRoutes');
+app.use('/champion', ChampionsRoutes);
+const DamageRoutes = require('./routes/DamageRoutes');
+app.use('/damage', DamageRoutes);
+const GamesRoutes = require('./routes/GamesRoutes');
+app.use('/games', GamesRoutes);
+const ObjectivesRoutes = require('./routes/ObjectivesRoutes');
+app.use('/objectives', ObjectivesRoutes);
+const SummonerGamesRoutes = require('./routes/SummonerGamesRoutes');
+app.use('/summonergames', SummonerGamesRoutes);
+const SummonerRoutes = require('./routes/SummonerRoutes');
+app.use('/summoner', SummonerRoutes);
+const TeamsRoutes = require('./routes/TeamsRoutes');
+app.use('/teams', TeamsRoutes);
+const TopPlayersRouters = require('./routes/TopPlayersRouters');
+app.use('/tops', TopPlayersRouters);
+const UserRoutes = require('./routes/UserRoutes');
+app.use('/user', UserRoutes);
+
+
 const uri = process.env.DB_CONNECTION;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
 const db = mongoose.createConnection(uri, { useNewUrlParser: true, useUnifiedTopology: true });
