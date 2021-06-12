@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const path = require("path");
 const app = express();
 const router = express.Router();
@@ -11,10 +12,11 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/scss', express.static(__dirname + '/scss'));
 app.use('/vendor', express.static(__dirname + '/vendor'));
 app.use('/js', express.static(__dirname + '/js'));
+app.use('/scripts', express.static(__dirname + '/resources/scripts'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/resources/views'));
 app.set("port", process.env.PORT || 3000);
-
+app.use(cors());
 router.get('/',function(req,res){
     res.render('index');
 });
@@ -85,9 +87,9 @@ const UserRoutes = require('./routes/UserRoutes');
 app.use('/user', UserRoutes);
 
 
-const uri = process.env.DB_CONNECTION;
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
-const db = mongoose.createConnection(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//const uri = process.env.DB_CONNECTION;
+//mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
+//const db = mongoose.createConnection(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use('/', router)
 // starting the server
