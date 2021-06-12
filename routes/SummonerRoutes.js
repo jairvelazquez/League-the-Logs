@@ -13,7 +13,7 @@ router.post('/', async function (req, res) {
 // About page route.
 router.get('/:summonerName', async function (req, res) {
     autenticar();
-    console.log(process.env.RIOT_TOKEN);
+    //console.log(process.env.RIOT_TOKEN);
     console.log(direccionPeticion.concat(req.params.summonerName));
     const options = {
         method: 'GET',
@@ -31,6 +31,8 @@ router.get('/:summonerName', async function (req, res) {
     try {
         //const summ = await Summoner.findById(req.summonerName);
         request(options).then(function (response) {
+            const summoner = new Summoner(response);
+            console.log(response.json);
             res.status(200).json(response);
         })
             .catch(function (err) {

@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Users = require('../models/UserModels');
 
+
 // Home page route.
 router.post('/', async function  (req, res) {
+    //console.log(req.body);
     const user = new Users(req.body);
     const savedPost = await user.save();
+    console.log(savedPost);
     res.send(savedPost);
 })
 
