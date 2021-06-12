@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Summoner = require('../models/SummonerModels');
 const request = require('request-promise');
-const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/";
 
+const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/";
 // Home page route.
 router.post('/', async function (req, res) {
-    const sum = new Summoner(req.body);
-    const savedPost = await sum.save();
-    res.send(savedPost);
+    console.log("Si llega el post");
+    console.log(req.body);
+
 })
 
 // About page route.
