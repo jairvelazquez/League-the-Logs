@@ -14,6 +14,8 @@ router.post('/', async function (req, res) {
 // About page route.
 router.get('/:summonerName', async function (req, res) {
     autenticar();
+    console.log(process.env.RIOT_TOKEN);
+    console.log(direccionPeticion.concat(req.params.summonerName));
     const options = {
         method: 'GET',
         uri: direccionPeticion.concat(req.params.summonerName),
@@ -28,17 +30,14 @@ router.get('/:summonerName', async function (req, res) {
     }
 
     try {
-        const summ = await Summoner.findById(req.summonerName);
-        if (summ) {
-            request(options).then(function (response) {
-                res.status(200).json(summ);
+        //const summ = await Summoner.findById(req.summonerName);
+        request(options).then(function (response) {
+            res.status(200).json(response);
+        })
+            .catch(function (err) {
+                console.log(err);
             })
-                .catch(function (err) {
-                    console.log(err);
-                })
-        }
     } catch (error) {
-        console.log("Entrar directo a error");
         res.send(error);
     }
 })
