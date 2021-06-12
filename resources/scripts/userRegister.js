@@ -8,7 +8,7 @@ registerButton.addEventListener("click", () => {
     let password = document.getElementById("password").value;
     let repeatPassword = document.getElementById("repeatPassword").value;
     let summonerName = userName;
-    
+
     const isValid = validaCampos(userName,email,password,repeatPassword);
     const buildedBody = getBody(userName,email,password,repeatPassword);
     console.log(buildedBody);
@@ -20,12 +20,11 @@ registerButton.addEventListener("click", () => {
           "Content-Type": "application/json",
         },
       })
-        .then((res) => res.json())
         .then(
           (responseFromAPI) =>
-            (console.log(responseFromAPI))
+            (verifyResponse(responseFromAPI))
         )
-        .catch((error) => console.error("Error:", error));
+        .catch((error) => console.log(error));
         
     }
     
@@ -47,4 +46,12 @@ function validaCampos(userName,email,password,repeatPassword){
 
 function getBody(userName,email,password,repeatPassword){
     return JSON.stringify({userName,email,password,repeatPassword});
+}
+
+function verifyResponse (responseFromAPI){
+    if(responseFromAPI.status == 200){
+        alert("Registro Correcto");
+    }
+    setTimeout (2000);
+    document.location.href = "index.html";
 }

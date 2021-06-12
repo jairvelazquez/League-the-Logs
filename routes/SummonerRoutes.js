@@ -6,9 +6,8 @@ const request = require('request-promise');
 const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/";
 // Home page route.
 router.post('/', async function (req, res) {
-    console.log("Si llega el post");
     console.log(req.body);
-
+    res.render('index');
 })
 
 // About page route.
