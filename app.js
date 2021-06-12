@@ -17,6 +17,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/resources/views'));
 app.set("port", process.env.PORT || 3000);
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded());
 router.get('/',function(req,res){
     res.render('index');
 });
@@ -87,9 +89,9 @@ const UserRoutes = require('./routes/UserRoutes');
 app.use('/user', UserRoutes);
 
 
-//const uri = process.env.DB_CONNECTION;
-//mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
-//const db = mongoose.createConnection(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const uri = process.env.DB_CONNECTION;
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
+const db = mongoose.createConnection(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use('/', router)
 // starting the server

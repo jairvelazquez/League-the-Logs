@@ -1,4 +1,6 @@
 const button = document.getElementById("btnLogin");
+const registerButton = document.getElementById("btnRegister");
+
 let direccionPeticion = "http://localhost:3000/summoner/";
 
 let body;
