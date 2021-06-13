@@ -1,6 +1,8 @@
 
 const registerButton = document.getElementById("btnRegister");
-let direccionPeticion = "http://localhost:3000/summoner/";
+let direccionPeticion = "http://localhost:3000/user/";
+let buildedBody = {};
+
 
 registerButton.addEventListener("click", () => {
     let userName = document.getElementById("userName").value;
@@ -10,7 +12,6 @@ registerButton.addEventListener("click", () => {
     let summonerName = userName;
 
     const isValid = validaCampos(userName,email,password,repeatPassword);
-    const buildedBody = getBody(userName,email,password,repeatPassword);
     console.log(buildedBody);
     if(isValid){
     fetch(direccionPeticion, {
@@ -40,12 +41,13 @@ function validaCampos(userName,email,password,repeatPassword){
         return false;
     }
     else{
+        buildedBody = getBody(userName,email,password);
         return true;
     }
 }
 
-function getBody(userName,email,password,repeatPassword){
-    return JSON.stringify({userName,email,password,repeatPassword});
+function getBody(username,email,password){
+    return JSON.stringify({username,email,password});
 }
 
 function verifyResponse (responseFromAPI){

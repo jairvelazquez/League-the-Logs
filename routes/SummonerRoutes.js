@@ -12,8 +12,7 @@ router.post('/', async function (req, res) {
 
 // About page route.
 router.get('/:summonerName', async function (req, res) {
-    autenticar();
-    console.log(process.env.RIOT_TOKEN);
+    //console.log(process.env.RIOT_TOKEN);
     console.log(direccionPeticion.concat(req.params.summonerName));
     const options = {
         method: 'GET',
@@ -31,6 +30,8 @@ router.get('/:summonerName', async function (req, res) {
     try {
         //const summ = await Summoner.findById(req.summonerName);
         request(options).then(function (response) {
+            const summoner = new Summoner(getSummoner(response));
+            summoner.save();
             res.status(200).json(response);
         })
             .catch(function (err) {
@@ -41,8 +42,16 @@ router.get('/:summonerName', async function (req, res) {
     }
 })
 
-function autenticar() {
-
+function getSummoner(response) {
+    const sum1 = {
+        account: response.accountId,
+        summoner: response.id,
+        name: response.name,
+        level: response.summonerLevel,
+        primaryRole: "A",
+        secondaryRole: "B"
+    }
+    return sum1;
 }
 
 module.exports = router;
