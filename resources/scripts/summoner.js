@@ -7,7 +7,7 @@ let body;
 
 button.addEventListener("click", () => {
     const summonerInput = document.getElementById("summonerName");
-    direccionPeticion= direccionPeticion.concat(summonerInput.value);
+    direccionPeticion = direccionPeticion.concat(summonerInput.value);
     fetch(direccionPeticion, {
         method: "GET",
         headers: {
