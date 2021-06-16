@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 const app = express();
+const multer = require('multer');
 const router = express.Router();
 require('dotenv/config');
 app.use(express.urlencoded({ extended: false }));
 app.use('/resources/views/partials', express.static(__dirname + '/resources/views/partials'));
 app.use('/img', express.static(__dirname + '/img'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/scss', express.static(__dirname + '/scss'));
 app.use('/vendor', express.static(__dirname + '/vendor'));
@@ -66,6 +68,9 @@ router.get('/utilities-other.html',function(req,res){
 });
 router.get('/index.html',function(req,res){
     res.render('index');
+});
+router.get('/profile.html', function(req, res){
+    res.render('profile');
 });
 const BansRoutes = require('./routes/BanRoutes');
 app.use('/bans', BansRoutes);
