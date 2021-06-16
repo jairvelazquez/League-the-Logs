@@ -4,7 +4,13 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 const multer = require('multer');
+const fs = require('fs');
 const router = express.Router();
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.json())
+app.use(express.urlencoded())
 require('dotenv/config');
 app.use(express.urlencoded({ extended: false }));
 app.use('/resources/views/partials', express.static(__dirname + '/resources/views/partials'));
@@ -15,12 +21,12 @@ app.use('/scss', express.static(__dirname + '/scss'));
 app.use('/vendor', express.static(__dirname + '/vendor'));
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/scripts', express.static(__dirname + '/resources/scripts'));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/resources/views'));
 app.set("port", process.env.PORT || 3000);
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded());
+
 router.get('/',function(req,res){
     res.render('index');
 });
@@ -92,6 +98,8 @@ const TopPlayersRouters = require('./routes/TopPlayersRouters');
 app.use('/tops', TopPlayersRouters);
 const UserRoutes = require('./routes/UserRoutes');
 app.use('/user', UserRoutes);
+const ImagesRoutes = require('./routes/ImagesRoutes');
+app.use('/imgs', ImagesRoutes);
 
 
 const uri = process.env.DB_CONNECTION;
