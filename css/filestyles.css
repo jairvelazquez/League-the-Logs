@@ -1,0 +1,40 @@
+
+
+.container-kk{
+    position: relative;
+    background: rgb(228, 236, 243);
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.form-container{
+    position: absolute;
+    width: 40%;
+    bottom: 20%;
+    right:0%;
+    margin: 10px;
+}
+
+.img-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    border-radius: 50%;
+    top: 30%;
+    left: 25%;
+    object-fit: cover;
+}
+
+.img-container img {
+    width: 75%;
+    height: 100%;
+    border-radius: 50%;
+    border: inset rgb(22, 94, 202) 10px;
+}
+
+.img-container button {
+    margin-top: 20px;
+    width: 50%;
+}
