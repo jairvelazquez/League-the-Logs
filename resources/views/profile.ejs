@@ -36,7 +36,14 @@
                         <input type="text" readonly class="form-control-plaintext" id="SecondaryRol" placeholder="...">
                     </div>
                 </div>
+            </form>
                 <div class="form-group">
+                    <form action="/imgs/upload" method="POST" enctype="multipart/form-data">
+                        <div>
+                            <label for="name">Image Title</label>
+                            <input type="text" id="name" placeholder="Name"
+                                   value="" name="name" required>
+                        </div>
                 <form>
                     <label>Change your profile picture</label>
                     <input type="file" name="image" id="img">
@@ -46,7 +53,6 @@
             </form>
         </div>
     </div>
-    <script src="/scripts/uploadImage.js"></script>
 
 </body>
  
