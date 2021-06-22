@@ -7,6 +7,8 @@ const multer = require('multer');
 const fs = require('fs');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const auth = require('./middlewares/auth.js')
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json())
@@ -21,7 +23,7 @@ app.use('/scss', express.static(__dirname + '/scss'));
 app.use('/vendor', express.static(__dirname + '/vendor'));
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/scripts', express.static(__dirname + '/resources/scripts'));
-
+app.use('/middlewares', express.static(__dirname + '/middlewares'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/resources/views'));
 app.set("port", process.env.PORT || 3000);
@@ -30,7 +32,7 @@ app.use(cors());
 router.get('/',function(req,res){
     res.render('index');
 });
-router.get('/dashboard.html',function(req,res){
+router.get('/dashboard.html', auth, function(req,res){
     res.render('dashboard');
 });
 router.get('/404.html',function(req,res){
@@ -100,6 +102,8 @@ const UserRoutes = require('./routes/UserRoutes');
 app.use('/user', UserRoutes);
 const ImagesRoutes = require('./routes/ImagesRoutes');
 app.use('/imgs', ImagesRoutes);
+const Auth = require('./routes/AuthRoutes');
+app.use('/auth', Auth);
 
 
 const uri = process.env.DB_CONNECTION;
