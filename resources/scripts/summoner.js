@@ -1,24 +1,31 @@
 const button = document.getElementById("btnLogin");
-const registerButton = document.getElementById("btnRegister");
+const username = document.getElementById("summonerName");
+const password = document.getElementById("password");
 
-let direccionPeticion = "http://localhost:3000/summoner/";
-
-let body;
+let direccionPeticion = "http://localhost:3000/user/login";
+let direccionAuth = "http://localhost:3000/dashboard.html";
 
 button.addEventListener("click", () => {
-    const summonerInput = document.getElementById("summonerName");
-    direccionPeticion = direccionPeticion.concat(summonerInput.value);
-    fetch(direccionPeticion, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then(
-          (responseFromAPI) =>
-            (console.log(responseFromAPI))
-        )
-        .catch((error) => console.error("Error:", error));
+  let data = {
+    username: username.value,
+    password: password.value,
+  };
+
+  fetch(direccionPeticion, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((responseFromAPI) => handleResponse(responseFromAPI))
+    .catch((error) => console.error("Error:", error));
 });
 
+function handleResponse(responseFromAPI) {
+  console.log(responseFromAPI);
+  let myHeaders = new Headers();
+  myHeaders.append('access-token', responseFromAPI.token);
+  //document.location.href = "dashboard.html";
+}
