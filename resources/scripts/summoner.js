@@ -6,6 +6,11 @@ let direccionPeticion = "http://localhost:3000/user/login";
 let direccionAuth = "http://localhost:3000/auth";
 
 button.addEventListener("click", () => {
+  let valida = validaCampos(username.value, password.value);
+  if (valida === false) {
+    return;
+  }
+
   let data = {
     username: username.value,
     password: password.value,
@@ -26,6 +31,13 @@ button.addEventListener("click", () => {
     .catch((error) => console.error("Error:", error));
 });
 
+function validaCampos(username, password) {
+  if (username.length <= 0 || password.length <= 0) {
+    alert("Uno o mas campos vacíos, verificar");
+    return false;
+  }
+}
+
 function handleResponse(responseFromAPI) {
   //console.log("token: "+responseFromAPI);
 
@@ -40,5 +52,6 @@ function handleResponse(responseFromAPI) {
       console.log(respuesta);
     })
     .catch((error) => console.error("Error:", error));
-  //document.location.href = "dashboard.html";
+
+  document.location.href = "dashboard.html";
 }

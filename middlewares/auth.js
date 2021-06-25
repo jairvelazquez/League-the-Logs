@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const llave = "millavesecreta";
 
 
-module.exports = function (req, res, next) {
+module.exports = function (req, res) {
   const token = req.headers['access-token'];
   //console.log(req.headers['access-token']);
   if (token) {
@@ -16,7 +16,12 @@ module.exports = function (req, res, next) {
         res.json({
           mensaje: 'Token correcto'
         })
-        next();
+        if (typeof localStorage === "undefined" || localStorage === null) {
+          let LocalStorage = require("node-localstorage").LocalStorage;
+          localStorage = new LocalStorage("./scratch");
+          localStorage.setItem('token', JSON.stringify(token));
+        }
+        
       }
     });
   } else {
