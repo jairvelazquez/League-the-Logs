@@ -5,15 +5,17 @@ const llave = "millavesecreta";
 
 
 module.exports = function (req, res, next) {
-  const token = req.headers["access-token"];
-  //console.log("middleware: "+llave);
+  const token = req.headers['access-token'];
+  //console.log(req.headers['access-token']);
   if (token) {
     jwt.verify(token, llave, (err, decoded) => {    
-        //console.log(decoded.check);  
       if (err) {
         return res.json({ mensaje: 'Token inválido' });    
-      } else {
-        req.decoded = decoded;    
+      } else{
+        req.decoded = decoded; 
+        res.json({
+          mensaje: 'Token correcto'
+        })
         next();
       }
     });

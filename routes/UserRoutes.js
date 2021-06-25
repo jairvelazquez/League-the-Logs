@@ -35,8 +35,9 @@ router.post("/login", async function (req, res) {
           if (error) {
             throw error;
           }
+          //console.log(token);
           res.json({
-            token,
+            token
           });
         }
       );

@@ -3,7 +3,7 @@ const username = document.getElementById("summonerName");
 const password = document.getElementById("password");
 
 let direccionPeticion = "http://localhost:3000/user/login";
-let direccionAuth = "http://localhost:3000/dashboard.html";
+let direccionAuth = "http://localhost:3000/auth";
 
 button.addEventListener("click", () => {
   let data = {
@@ -19,13 +19,26 @@ button.addEventListener("click", () => {
     },
   })
     .then((res) => res.json())
-    .then((responseFromAPI) => handleResponse(responseFromAPI))
+    .then((responseFromAPI) => {
+      //console.log(responseFromAPI.token)
+      handleResponse(responseFromAPI.token);
+    })
     .catch((error) => console.error("Error:", error));
 });
 
 function handleResponse(responseFromAPI) {
-  console.log(responseFromAPI);
-  let myHeaders = new Headers();
-  myHeaders.append('access-token', responseFromAPI.token);
+  //console.log("token: "+responseFromAPI);
+
+  fetch(direccionAuth, {
+    method: "GET", // or 'PUT'
+    headers: {
+      "access-token": responseFromAPI,
+    },
+  })
+    .then((res) => res.json())
+    .then((respuesta) => {
+      console.log(respuesta);
+    })
+    .catch((error) => console.error("Error:", error));
   //document.location.href = "dashboard.html";
 }

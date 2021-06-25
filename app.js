@@ -3,18 +3,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 const app = express();
-const multer = require('multer');
-const fs = require('fs');
 const router = express.Router();
-const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
 const auth = require('./middlewares/auth.js')
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }));
 require('dotenv/config');
-app.use(express.urlencoded({ extended: false }));
 app.use('/resources/views/partials', express.static(__dirname + '/resources/views/partials'));
 app.use('/img', express.static(__dirname + '/img'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
@@ -27,12 +20,12 @@ app.use('/middlewares', express.static(__dirname + '/middlewares'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/resources/views'));
 app.set("port", process.env.PORT || 3000);
-app.use(cors());
+//app.use(cors());
 
 router.get('/',function(req,res){
     res.render('index');
 });
-router.get('/dashboard.html', auth, function(req,res){
+router.post('/dashboard.html', auth, function(req,res){
     res.render('dashboard');
 });
 router.get('/404.html',function(req,res){
@@ -50,7 +43,7 @@ router.get('/cards.html',function(req,res){
 router.get('/charts.html',function(req,res){
     res.render('charts');
 });
-router.get('/dashboard.html',function(req,res){
+router.get('/dashboard.html', auth, function(req,res){
     res.render('dashboard');
 });
 router.get('/forgot-password.html',function(req,res){
@@ -80,6 +73,10 @@ router.get('/index.html',function(req,res){
 router.get('/profile.html', function(req, res){
     res.render('profile');
 });
+
+const autorizado = require('./middlewares/auth.js');
+router.get('/auth', autorizado);
+
 const BansRoutes = require('./routes/BanRoutes');
 app.use('/bans', BansRoutes);
 const ChampionsRoutes = require('./routes/ChampionsRoutes');
@@ -102,9 +99,10 @@ const UserRoutes = require('./routes/UserRoutes');
 app.use('/user', UserRoutes);
 const ImagesRoutes = require('./routes/ImagesRoutes');
 app.use('/imgs', ImagesRoutes);
+/*
 const Auth = require('./routes/AuthRoutes');
 app.use('/auth', Auth);
-
+*/
 
 const uri = process.env.DB_CONNECTION;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  });
