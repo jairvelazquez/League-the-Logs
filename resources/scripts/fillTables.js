@@ -1,16 +1,105 @@
-
 const buttonGetTables = document.getElementById("btnMatches");
 const summonerName = "elvuelodeicaro";
 const direccionPeticion = "http://localhost:3000/tables/";
-
+const posicion = 0;
 buttonGetTables.addEventListener("click", function () {
   fetch(direccionPeticion + summonerName, {
     method: "GET",
   })
     .then((res) => res.json())
     .then((respuesta) => {
-      console.log(respuesta);
+      handleResponse(respuesta.DataMatches);
+      //console.log(respuesta);
     })
     .catch((error) => console.error("Error:", error));
 
+
 });
+
+function handleResponse(dataMatches) {
+  console.log(dataMatches);
+  console.log(dataMatches.length);
+  for (let match of dataMatches) {
+    console.log(match);
+
+    let summoner = getSummoner(match);
+
+    let campeon = summoner.championName;
+
+    let linea = parseLane(summoner.lane);
+
+    let gano = getGano(match, posicion);
+
+    let kda = getKda(summoner);
+
+    let fecha = new Date(match.gameCreation).toLocaleDateString();
+
+    let oroObtenido = summoner.goldEarned;
+
+    fillTable(campeon, linea, gano, kda, fecha, oroObtenido);
+
+    console.log("Campeon:" + campeon);
+    console.log("Linea:" + linea);
+    console.log("Resultado:" + gano);
+    console.log("KDA:" + kda);
+    console.log("Fecha PArtida:" + fecha);
+    console.log("Oro Obtenido:" + oroObtenido);
+
+  }
+
+}
+function getSummoner(dataMatch) {
+  for (let participant of dataMatch.participants) {
+    if (participant.summonerName === summonerName) {
+      return participant;
+    }
+  }
+}
+
+function getGano(dataMatch, position) {
+  let resultado;
+  if (position < 5) {
+    resultado = dataMatch.teams[0].win;
+  }
+  else {
+    resultado = dataMatch.teams[1].win;
+  }
+  let resultadoString = resultado ? "Ganada" : "Perdida";
+  return resultadoString;
+}
+
+function getKda(summoner) {
+  let kda = "";
+  kda = kda.concat(summoner.kills + "/");
+  kda = kda.concat(summoner.deaths + "/");
+  kda = kda.concat(summoner.assists);
+  return kda;
+}
+
+function fillTable(campeon, linea, gano, kda, fecha, oroObtenido) {
+  var fila = "<tr><td>" + campeon + "</td><td>" + linea + "</td><td>" + gano +
+    "</td><td>" + kda + "</td><td>" + fecha + "</td><td>" + oroObtenido + "</td></tr>";
+
+  var row = document.createElement("TR");
+  row.innerHTML = fila;
+  document.getElementById("table").appendChild(row);
+}
+
+function parseLane(lane) {
+  let parsedLane;
+  switch (lane) {
+    case "BOTTOM":
+      parsedLane = "Botlane";
+      break;
+    case "MIDDLE":
+      parsedLane = "Midlane";
+      break;
+    case "TOP":
+      parsedLane = "Top";
+      break;
+    case "JUNGLE":
+      parsedLane = "Jungla";
+      break;
+  }
+  return parsedLane;
+}
