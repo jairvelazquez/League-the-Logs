@@ -8,10 +8,7 @@ const auth = require("./middlewares/auth.js");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 require("dotenv/config");
-app.use(
-  "/resources/views/partials",
-  express.static(__dirname + "/resources/views/partials")
-);
+app.use("/resources/views/partials", express.static(__dirname + "/resources/views/partials"));
 app.use("/img", express.static(__dirname + "/img"));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use("/css", express.static(__dirname + "/css"));
@@ -106,9 +103,8 @@ const UserRoutes = require("./routes/UserRoutes");
 app.use("/user", UserRoutes);
 const ImagesRoutes = require("./routes/ImagesRoutes");
 app.use("/imgs", ImagesRoutes);
-const Auth = require('./routes/AuthRoutes');
-app.use('/leave', Auth);
-
+const Auth = require("./routes/AuthRoutes");
+app.use("/leave", Auth);
 
 const uri = process.env.DB_CONNECTION;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
