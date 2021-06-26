@@ -6,15 +6,10 @@ const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summone
 const direccionPeticionMatches = "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/";
 const direccionPeticionMatch = "https://americas.api.riotgames.com/lol/match/v5/matches/";
 router.get("/:summonerName", async function (req, res) {
-    //console.log(puuid);
-    //const data = JSON.pa
-    //const matches = getMatches(puuid);
-    //const data = FilterInformation(matches);
     try {
         let puuid = await getPuid(req.params.summonerName);
         let matches = await getMatches(puuid);
         let DataMatches = await getDataMatches(matches);
-        console.log(DataMatches)
         res.json({ DataMatches });
     } catch {
         res.error("Error al enviar la info");
@@ -36,10 +31,7 @@ async function getPuid(summonerName) {
         }
     }
     try {
-        //const summ = await Summoner.findById(req.summonerName);
         await request(options).then(function (response) {
-            //console.log(response);
-            //console.log(response.puuid);
             puid = response.puuid;
             return response.puuid;
         })
@@ -66,10 +58,7 @@ async function getMatches(puid) {
         }
     }
     try {
-        //const summ = await Summoner.findById(req.summonerName);
         await request(options).then(function (response) {
-            //console.log(response);
-            //console.log(response.puuid);
             matches = response;
             return response;
         })
@@ -98,11 +87,7 @@ async function getDataMatches(matches) {
             }
         }
         try {
-            //const summ = await Summoner.findById(req.summonerName);
             await request(options).then(function (response) {
-                //console.log(response);
-                //console.log(response.puuid);
-                console.log(response.info);
                 dataMatches.push(response.info);
                 return dataMatches;
             })
@@ -112,15 +97,7 @@ async function getDataMatches(matches) {
         } catch (error) {
         }
     }
-    console.log(dataMatches);
     return dataMatches;
 }
 
-function FilterInformation(data) {
-
-}
-
-function fillTable(dataMatches) {
-
-}
 module.exports = router;
