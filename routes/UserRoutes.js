@@ -65,7 +65,7 @@ router.patch("/forget-password/:myemail", async function (req, res) {
 
 router.get('/:username', async function (req, res){
   const user = await Summoners.find();
-  const userFound = findUser(user, req.params.username);
+  const userFound = findSummoner(user, req.params.username);
   try {
     res.send(userFound);
   }catch(error){
@@ -77,6 +77,15 @@ function findUser(users, usuario) {
   let user;
   for (let i = 0; i < users.length; i++) {
     if (users[i].username === usuario) {
+      user = users[i];
+    }
+  }
+  return user;
+}
+function findSummoner(users, usuario) {
+  let user;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].name === usuario) {
       user = users[i];
     }
   }
