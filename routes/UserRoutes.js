@@ -18,6 +18,7 @@ router.post("/login", async function (req, res) {
     const user = await Users.find();
     const userFound = findUser(user, req.body.username);
     if (req.body.password === userFound.password) {
+      console.log("Entra aqui");
       const payload = {
         admin: userFound.admin,
         name: userFound.username
@@ -74,9 +75,8 @@ router.get('/:username', async function (req, res){
 
 function findUser(users, usuario) {
   let user;
-  console.log(usuario);
   for (let i = 0; i < users.length; i++) {
-    if (users[i].name === usuario) {
+    if (users[i].username === usuario) {
       user = users[i];
     }
   }
