@@ -7,7 +7,8 @@ const SummonerSchema = mongoose.Schema({
 	name:{type: String, require: true},
 	level:{type: Number, require: true},
 	primaryRole:{type: String, require: true},
-	secondaryRole:{type: String, require: true}
+	secondaryRole:{type: String, require: true},
+	matchesRegister:{type: Number}
 });
 
 module.exports = mongoose.model('SummonerModel', SummonerSchema);

@@ -6,7 +6,7 @@ const request = require('request-promise');
 const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/";
 
 // About page route.
-router.get('/:summonerName', async function (req, res) {
+router.post('/:summonerName', async function (req, res) {
     //console.log(process.env.RIOT_TOKEN);
     console.log(direccionPeticion.concat(req.params.summonerName));
     const options = {

@@ -1,18 +1,60 @@
-const button = document.getElementById("btnLeave")
-
+const buttonReportes = document.getElementById("reportes")
+const direccionPeticion = "http://localhost:3000/user/";
+const direccionPeticion = "http://localhost:3000//summonergames/";
 const direccionAuth = "http://localhost:3000/leave";
-
-button.addEventListener("click", () => {
-
-    fetch(direccionAuth, {
-        method: "GET", 
-      })
-        .then((res) => res.json())
-        .then((respuesta) => {
-            console.log(respuesta);
-            alert(respuesta.mensaje);
-        })
-        .catch((error) => console.error("Error:", error));
-    
-    
+const summonerName = "Itequiya";
+buttonReportes.addEventListener("click", () => {
+    modificaTotalPartidas();
+    getCuadrosEstadisticos();
 });
+
+function modificaTotalPartidas(){
+  
+  fetch(direccionPeticion+summonerName, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((responseFromAPI) => {
+      handleResponseFromUser(responseFromAPI);
+    })
+    .catch((error) => console.log("Error:",error));
+
+}
+
+function handleResponseFromUser(responseFromAPI){
+  const textoCifra = document.getElementById("totalPartidas");
+  const cifra = responseFromAPI.matchesRegister;
+  textoCifra.innerHTML = cifra;
+}
+
+function getCuadrosEstadisticos(){
+  fetch(direccionPeticionPartidas+summonerName, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((responseFromAPI) => {
+      handleResponseFromSummonerGames(responseFromAPI.games);
+    })
+    .catch((error) => console.log("Error:",error));
+}
+
+function handleResponseFromSummonerGames(responseFromAPI){
+    const promedioOro=0;
+    const promedioVision=0;
+    const winRate = 0;
+    const partidas=responseFromAPI.length;
+    for(let i=0;i<partidas;i++){
+        promedioOro = promedioOro + responseFromAPI[i]
+        promedioVision = promedioVision + responseFromAPI[i]
+        winRate = responseFromAPI.win ? (winRate + 100) : (winRate)
+    }
+    promedioOro = promedioOro / partidas;
+    promedioVision = promedioVision / partidas;
+    winRate = winRate / partidas;
+}

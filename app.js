@@ -44,15 +44,15 @@ router.get("/charts.html", function (req, res) {
   res.render("charts");
 });
 router.get("/dashboard.html", function (req, res) {
-  if (typeof localStorage === "undefined" || localStorage === null) {
-    let LocalStorage = require("node-localstorage").LocalStorage;
-    localStorage = new LocalStorage("./scratch");
-  }
-  if (localStorage.getItem("token") === null) {
-    res.redirect("/");
-  } else {
+  //if (typeof localStorage === "undefined" || localStorage === null) {
+    //let LocalStorage = require("node-localstorage").LocalStorage;
+    //localStorage = new LocalStorage("./scratch");
+  //}
+  //if (localStorage.getItem("token") === null) {
+    //res.redirect("/");
+  //} else {
     res.render("dashboard");
-  }
+  //}
 });
 router.get("/forgot-password.html", function (req, res) {
   res.render("forgot-password");
@@ -109,7 +109,7 @@ app.use("/imgs", ImagesRoutes);
 const Auth = require('./routes/AuthRoutes');
 app.use('/leave', Auth);
 const Tables = require('./routes/TableRoutes');
-app.use("/tables",Tables);
+app.use("/tables", Tables);
 
 
 const uri = process.env.DB_CONNECTION;

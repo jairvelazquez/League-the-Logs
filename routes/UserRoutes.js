@@ -1,26 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const Users = require("../models/UserModels");
+const Summoners = require("../models/SummonerModels");
 const jwt = require("jsonwebtoken");
 const llave = process.env.SECRET_KEY;
 
-
-//console.log("ruta"+llave);
 router.post("/", async function (req, res) {
-  //console.log(req.body);
   const user = new Users(req.body);
   const savedPost = await user.save();
   console.log(savedPost);
   res.send(savedPost);
 });
 
-// About page route.}
+
 router.post("/login", async function (req, res) {
   try {
-    //console.log(req.body);
     const user = await Users.find();
     const userFound = findUser(user, req.body.username);
-    //console.log(user);
     if (req.body.password === userFound.password) {
       const payload = {
         check: true,
@@ -35,7 +31,6 @@ router.post("/login", async function (req, res) {
           if (error) {
             throw error;
           }
-          //console.log(token);
           res.json({
             token
           });
@@ -65,14 +60,22 @@ router.patch("/forget-password/:myemail", async function (req, res) {
   }
 });
 
-function findUser(users, usuario) {
-  //console.log(users);
-  //console.log(usuario);
+router.get('/:username', async function (req, res){
+  const user = await Summoners.find();
+  const userFound = findUser(user, req.params.username);
+  try {
+    res.send(userFound);
+  }catch(error){
+    res.error(error);
+  }
+});
 
+function findUser(users, usuario) {
+  let user;
+  console.log(usuario);
   for (let i = 0; i < users.length; i++) {
-    if (users[i].username === usuario) {
-      //console.log(users[i]);
-      return users[i];
+    if (users[i].name === usuario) {
+      user = users[i];
     }
   }
   return user;
