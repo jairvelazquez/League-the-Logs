@@ -9,6 +9,11 @@ const direccionAuth2 = "http://localhost:3000/actions/gettoken";
 const direccionName = "http://localhost:3000/user/login"
 const summonerName = "Itequiya";
 
+window.addEventListener("load", () =>{
+  const nombre = localStorage.getItem("username");
+  lblName.innerHTML = nombre; 
+})
+
 button.addEventListener("click", () => {
   fetch(direccionAuth, {
     method: "GET",
