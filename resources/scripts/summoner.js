@@ -25,6 +25,10 @@ button.addEventListener("click", () => {
   })
     .then((res) => res.json())
     .then((responseFromAPI) => {
+      console.log(responseFromAPI.userFound.username);
+      if(localStorage.getItem("username")==null){
+        localStorage.setItem("username", responseFromAPI.userFound.username);
+      }
       //console.log(responseFromAPI.token)
       handleResponse(responseFromAPI.token);
     })
