@@ -110,10 +110,9 @@ const ImagesRoutes = require("./routes/ImagesRoutes");
 app.use("/imgs", ImagesRoutes);
 const Auth = require("./routes/AuthRoutes");
 app.use("/actions", Auth);
-/*
 const Tables = require("./routes/TableRoutes");
 app.use("/tables", Tables);
-*/
+
 
 const uri = process.env.DB_CONNECTION;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
