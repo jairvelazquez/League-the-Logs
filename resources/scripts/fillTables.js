@@ -1,5 +1,5 @@
 const buttonGetTables = document.getElementById("btnMatches");
-const summonerName = "elvuelodeicaro";
+const summonerName = "Itequiya";
 const direccionPeticion = "http://localhost:3000/tables/";
 const posicion = 0;
 buttonGetTables.addEventListener("click", function () {
@@ -100,6 +100,8 @@ function parseLane(lane) {
     case "JUNGLE":
       parsedLane = "Jungla";
       break;
+    default: 
+    parsedLane = "ARAM";
   }
   return parsedLane;
 }

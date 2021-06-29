@@ -11,7 +11,8 @@ const SummonerGamesSchema =  mongoose.Schema({
     farm: {type:Number, required:true},
     vision: {type:Number, required:true},
     idTeam:{type:Number, required:true},
-    gold: {type:Number,  required:true}
+    gold: {type:Number,  required:true},
+    win:{type:Boolean, required:true}
 });
 
 module.exports = mongoose.model('SumonnerGamesModels', SummonerGamesSchema)

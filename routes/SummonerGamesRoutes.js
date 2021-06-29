@@ -10,13 +10,23 @@ router.post('/', async function (req, res) {
 })
 
 // About page route.
-router.get('/', async function (req, res) {
-  try{
-    const summGames = await SummonerGames.find();
-    res.send(summGames);
-    }catch(error){
-        res.send(error);
-    }
+router.get('/get-games-by-summoner/:summonerName', async function (req, res) {
+    try{
+        const games = await SummonerGames.find();
+        const gamesBySummoner= getGamesBySummoner(games,req.params.summonerName);
+        res.send(gamesBySummoner);
+        }catch(error){
+            res.send(error);
+        }
 })
 
+function getGamesBySummoner(games,summonerName){
+    let gamesBySummoner = [];
+    for(let i=0;i<games.length;i++){
+        if(games[i].id_summoner === summonerName){
+            gamesBySummoner.push(games[i]);
+        }
+    }
+    return gamesBySummoner;
+}
 module.exports = router;
