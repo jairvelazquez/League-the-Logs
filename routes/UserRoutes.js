@@ -19,7 +19,8 @@ router.post("/login", async function (req, res) {
     const userFound = findUser(user, req.body.username);
     if (req.body.password === userFound.password) {
       const payload = {
-        check: true,
+        admin: userFound.admin,
+        name: userFound.username
       };
       jwt.sign(
         payload,
@@ -32,7 +33,8 @@ router.post("/login", async function (req, res) {
             throw error;
           }
           res.json({
-            token
+            token,
+            userFound
           });
         }
       );
