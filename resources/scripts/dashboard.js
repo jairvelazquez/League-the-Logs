@@ -1,6 +1,6 @@
 const buttonReportes = document.getElementById("reportes")
 const direccionPeticion = "http://localhost:3000/user/";
-const direccionPeticion = "http://localhost:3000//summonergames/";
+const direccionPeticionSummonerGames = "http://localhost:3000//summonergames/";
 const direccionAuth = "http://localhost:3000/leave";
 const summonerName = "Itequiya";
 buttonReportes.addEventListener("click", () => {
@@ -31,7 +31,7 @@ function handleResponseFromUser(responseFromAPI){
 }
 
 function getCuadrosEstadisticos(){
-  fetch(direccionPeticionPartidas+summonerName, {
+  fetch(direccionPeticionSummonerGames+summonerName, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
