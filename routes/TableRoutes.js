@@ -4,18 +4,19 @@ const request = require('request-promise');
 const BanModels = require('../models/BanModels');
 const ChampionsModels = require('../models/ChampionsModels');
 const DamageModels = require('../models/DamageModels');
+const Sum = require('../models/SummonerGamesModels')
 const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
 const direccionPeticionMatches = "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/";
 const direccionPeticionMatch = "https://americas.api.riotgames.com/lol/match/v5/matches/";
 
-let level;
+let levelSum;
 
 router.get("/:summonerName", async function (req, res) {
     try {
         let puuid = await getPuid(req.params.summonerName);
         let matches = await getMatches(puuid);
         let DataMatches = await getDataMatches(matches);
-        await fillDatabaseWithMatches(JSON.stringify(DataMatches));
+        fillDatabaseWithMatches(DataMatches, puuid);
         res.json({ DataMatches });
     } catch (error) {
         console.log(error);
@@ -39,9 +40,8 @@ async function getPuid(summonerName) {
     }
     try {
         await request(options).then(function (response) {
-            // console.log(response);
             puid = response.puuid;
-            level = response.puuid;
+            levelSum = response.summonerLevel;
             return response.level;
         })
             .catch(function (err) {
@@ -108,49 +108,70 @@ async function getDataMatches(matches) {
     }
     return dataMatches;
 }
-async function fillDatabaseWithMatches(DataMatches) {
-    console.log(DataMatches);
+function fillDatabaseWithMatches(DataMatches, puuid) {
     for (let match of DataMatches) {
-        if (i === 0) {
-            console.log(match);
-        }
-        fillBanModels(match);
-        fillChampionsModel(match);
-        fillDamageModel(match);
+        fillSummonerGamesModel(match, puuid);
+        fillBanModels(match, puuid);
+        fillChampionsModel(match, puuid);
+        fillDamageModel(match, puuid);
     }
 }
-function getSummoner(match) {
-    //console.log(match);
+
+function getSummoner(match, puuid) {
     for (let participant of match.participants) {
-        if (participant.summonerName === summonerName) {
+        if (participant.puuid === puuid) {
             return participant;
         }
     }
 }
-
-function fillBanModels(match) {
-    let bans = new BanModels();
-    let summoner = getSummoner(match);
-    bans.bannedChamp = match.teams[0].bans[0].championId;
-    bans.nombre = summoner.championName;
-    bans.level = level;
-    bans.primaryRole = summoner.lane;
-    bans.save();
+async function fillSummonerGamesModel(match, puuid) {
+    const summoner = getSummoner(match, puuid);
+    let summ = new Sum({
+        id_summoner: summoner.summonerId,
+        id_game: match.gameId,
+        id_champ: summoner.championId,
+        id_damage: summoner.totalDamageDealt,
+        kills: summoner.kills,
+        deaths: summoner.deaths,
+        assists: summoner.assists,
+        farm: summoner.totalMinionsKilled,
+        vision: summoner.visionScore,
+        idTeam: summoner.teamId,
+        gold: summoner.goldEarned,
+        win: summoner.win,
+    });
+    await summ.save();
 }
-function fillChampionsModel(match) {
+async function fillBanModels(match, puuid) {
+    let bans = new BanModels();
+    let summoner = getSummoner(match, puuid);
+    bans.summonerName = summoner.summonerName;
+    try{
+        bans.bannedChamp = match.teams[1].bans[1].championId;
+    }catch(error){
+        console.log("Jugador no seleccionó baneo");
+        bans.bannedChamp = 0;
+    }
+    bans.nombre = summoner.championName;
+    bans.level = levelSum;
+    bans.primaryRole = summoner.lane;
+    await bans.save();
+}
+async function fillChampionsModel(match, puuid) {
     let championsModel = new ChampionsModels();
-    let summoner = getSummoner(match);
+    let summoner = getSummoner(match, puuid);
     championsModel.id_champion = summoner.championId;
     championsModel.champion_name = summoner.championName;
-    championsModel.save();
+    await championsModel.save();
 }
-function fillDamageModel(match) {
+async function fillDamageModel(match, puuid) {
     let fillDamageModel = new DamageModels();
-    let summoner = getSummoner(match);
+    let summoner = getSummoner(match, puuid);
+    fillDamageModel.summonerName = summoner.summonerName;
     fillDamageModel.physicalDamage = summoner.physicalDamageDealtToChampions;
     fillDamageModel.magicDamage = summoner.magicDamageDealtToChampions;
     fillDamageModel.trueDamage = summoner.trueDamageDealtToChampions;
     fillDamageModeltotalDamage = summoner.totalDamageDealtToChampions;
-    fillDamageModel.save();
+    await fillDamageModel.save();
 }
 module.exports = router;
