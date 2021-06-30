@@ -9,7 +9,7 @@ const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summone
 const direccionPeticionMatches = "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/";
 const direccionPeticionMatch = "https://americas.api.riotgames.com/lol/match/v5/matches/";
 
-let level;
+let levelSum;
 
 router.get("/:summonerName", async function (req, res) {
     try {
@@ -40,9 +40,8 @@ async function getPuid(summonerName) {
     }
     try {
         await request(options).then(function (response) {
-            // console.log(response);
             puid = response.puuid;
-            level = response.puuid;
+            levelSum = response.summonerLevel;
             return response.level;
         })
             .catch(function (err) {
@@ -111,10 +110,10 @@ async function getDataMatches(matches) {
 }
 function fillDatabaseWithMatches(DataMatches, puuid) {
     for (let match of DataMatches) {
-            fillSummonerGamesModel(match, puuid);
-            fillBanModels(match, puuid);
-            fillChampionsModel(match, puuid);
-            fillDamageModel(match, puuid);
+        fillSummonerGamesModel(match, puuid);
+        fillBanModels(match, puuid);
+        fillChampionsModel(match, puuid);
+        fillDamageModel(match, puuid);
     }
 }
 
@@ -137,7 +136,7 @@ async function fillSummonerGamesModel(match, puuid) {
         assists: summoner.assists,
         farm: summoner.totalMinionsKilled,
         vision: summoner.visionScore,
-        id_team: summoner.teamId,
+        idTeam: summoner.teamId,
         gold: summoner.goldEarned,
         win: summoner.win,
     });
@@ -146,15 +145,15 @@ async function fillSummonerGamesModel(match, puuid) {
 async function fillBanModels(match, puuid) {
     let bans = new BanModels();
     let summoner = getSummoner(match, puuid);
+    bans.summonerName = summoner.summonerName;
     try{
         bans.bannedChamp = match.teams[1].bans[1].championId;
     }catch(error){
         console.log("Jugador no seleccionó baneo");
         bans.bannedChamp = 0;
     }
-    
     bans.nombre = summoner.championName;
-    bans.level = level;
+    bans.level = levelSum;
     bans.primaryRole = summoner.lane;
     await bans.save();
 }
@@ -168,6 +167,7 @@ async function fillChampionsModel(match, puuid) {
 async function fillDamageModel(match, puuid) {
     let fillDamageModel = new DamageModels();
     let summoner = getSummoner(match, puuid);
+    fillDamageModel.summonerName = summoner.summonerName;
     fillDamageModel.physicalDamage = summoner.physicalDamageDealtToChampions;
     fillDamageModel.magicDamage = summoner.magicDamageDealtToChampions;
     fillDamageModel.trueDamage = summoner.trueDamageDealtToChampions;
