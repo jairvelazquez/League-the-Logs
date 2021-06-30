@@ -44,15 +44,15 @@ router.get("/charts.html", function (req, res) {
   res.render("charts");
 });
 router.get("/dashboard.html", function (req, res) {
-  //if (typeof localStorage === "undefined" || localStorage === null) {
-    //let LocalStorage = require("node-localstorage").LocalStorage;
-    //localStorage = new LocalStorage("./scratch");
-  //}
-  //if (localStorage.getItem("token") === null) {
-    //res.redirect("/");
-  //} else {
+  if (typeof localStorage === "undefined" || localStorage === null) {
+    let LocalStorage = require("node-localstorage").LocalStorage;
+    localStorage = new LocalStorage("./scratch");
+  }
+  if (localStorage.getItem("token") === null) {
+    res.redirect("/");
+  } else {
     res.render("dashboard");
-  //}
+  }
 });
 router.get("/forgot-password.html", function (req, res) {
   res.render("forgot-password");
@@ -82,8 +82,6 @@ router.get("/profile.html", function (req, res) {
   res.render("profile");
 });
 
-
-
 const autorizado = require("./middlewares/auth.js");
 router.get("/auth", autorizado);
 const BansRoutes = require("./routes/BanRoutes");
@@ -108,7 +106,6 @@ const UserRoutes = require("./routes/UserRoutes");
 app.use("/user", UserRoutes);
 const ImagesRoutes = require("./routes/ImagesRoutes");
 app.use("/imgs", ImagesRoutes);
-
 const Auth = require("./routes/AuthRoutes");
 app.use("/actions", Auth);
 const Tables = require("./routes/TableRoutes");

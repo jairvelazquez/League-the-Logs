@@ -5,6 +5,7 @@ const request = require('request-promise');
 const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
 const direccionPeticionMatches = "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/";
 const direccionPeticionMatch = "https://americas.api.riotgames.com/lol/match/v5/matches/";
+
 router.get("/:summonerName", async function (req, res) {
     try {
         let puuid = await getPuid(req.params.summonerName);
