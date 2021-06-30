@@ -25,11 +25,11 @@ button.addEventListener("click", () => {
   })
     .then((res) => res.json())
     .then((responseFromAPI) => {
-      //console.log(responseFromAPI.userFound.username);
+      console.log(responseFromAPI.userFound.username);
       if(localStorage.getItem("username")==null){
         localStorage.setItem("username", responseFromAPI.userFound.username);
       }
-      //console.log(responseFromAPI.token)
+      console.log(responseFromAPI.token)
       handleResponse(responseFromAPI.token);
     })
     .catch((error) => console.error("Error:", error));
@@ -43,7 +43,7 @@ function validaCampos(username, password) {
 }
 
 function handleResponse(responseFromAPI) {
-  //console.log("token: "+responseFromAPI);
+  console.log("token: "+responseFromAPI);
 
   fetch(direccionAuth, {
     method: "GET", // or 'PUT'

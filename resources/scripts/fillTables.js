@@ -1,7 +1,29 @@
 const buttonGetTables = document.getElementById("btnMatches");
+const button = document.getElementById("btnLeave");
+const buttonToken = document.getElementById("btnProfile");
+const lblName = document.getElementById("profileName");
 const summonerName = "Itequiya";
 const direccionPeticion = "http://localhost:3000/tables/";
 const posicion = 0;
+
+window.addEventListener("load", () =>{
+  const nombre = localStorage.getItem("username");
+  lblName.innerHTML = nombre; 
+})
+
+button.addEventListener("click", () => {
+  fetch(direccionAuth, {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((respuesta) => {
+      localStorage.clear();
+      console.log(respuesta);
+      alert(respuesta.mensaje);
+    })
+    .catch((error) => console.error("Error:", error));
+});
+
 buttonGetTables.addEventListener("click", function () {
   fetch(direccionPeticion + summonerName, {
     method: "GET",

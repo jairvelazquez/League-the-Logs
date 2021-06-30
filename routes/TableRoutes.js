@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request-promise');
-
+const SGM = require("../models/SummonerGamesModels");
 const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
 const direccionPeticionMatches = "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/";
 const direccionPeticionMatch = "https://americas.api.riotgames.com/lol/match/v5/matches/";
@@ -11,6 +11,7 @@ router.get("/:summonerName", async function (req, res) {
         let puuid = await getPuid(req.params.summonerName);
         let matches = await getMatches(puuid);
         let DataMatches = await getDataMatches(matches);
+        fillDatabaseWithMatches(DataMatches.DataMatches);
         res.json({ DataMatches });
     } catch {
         res.error("Error al enviar la info");
@@ -100,5 +101,24 @@ async function getDataMatches(matches) {
     }
     return dataMatches;
 }
+
+function fillDatabaseWithMatches(DataMatches){
+    fillSummonerGamesModel(DataMatches);
+}
+
+function fillSummonerGamesModel(DataMatches){
+    for(let match of DataMatches){
+    let games = new SGM();
+    games.id_summoner = getSummoner(dataMatches);
+    }
+}
+
+function getSummoner(dataMatch) {
+    for (let participant of dataMatch.participants) {
+      if (participant.summonerName === summonerName) {
+        return participant;
+      }
+    }
+  }
 
 module.exports = router;
