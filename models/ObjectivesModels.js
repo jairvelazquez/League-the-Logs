@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ObjectivesSchema = mongoose.Schema({
 	
-    id_objetives:{ type: Number, required: true },
+    summonerName:{ type: String, required: true },
 	first_blood:{ type: Boolean, required: true },
 	turrets_destroyed:{ type: Number, required: true },
 	dragons:{ type: Number, required: true },
