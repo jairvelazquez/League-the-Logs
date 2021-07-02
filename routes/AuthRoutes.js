@@ -23,4 +23,21 @@ router.get("/gettoken", (req, res) => {
   //console.log(token);
 });
 
+router.put("/change-password/:usrEmail", (req, res) => {
+
+  console.log(req.params.usrEmail);
+  console.log(req.body.password);
+  try {
+    const user = new Users.findOne({email: req.params.usrEmail},
+      req.body, {
+        new: true
+      });
+
+      res.json({mensaje: 'constraseña cambiada con exito'});
+  } catch (error) {
+    res.json({mensaje: error});
+  }
+  
+});
+
 module.exports = router;
