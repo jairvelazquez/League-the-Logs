@@ -8,7 +8,8 @@ const GamesSchema =  mongoose.Schema({
     patch: {type:String, required:true},
     region: {type:String, required:true},
     id_team1: {type:Number, required:true},
-    id_team2: {type:Number, required:true}
+    id_team2: {type:Number, required:true},
+    summonerName: {type:String,required:true}
 });
 
 module.exports = mongoose.model('GamesModels', GamesSchema)
