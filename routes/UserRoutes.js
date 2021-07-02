@@ -8,7 +8,7 @@ const llave = process.env.SECRET_KEY;
 router.post("/", async function (req, res) {
   const user = new Users(req.body);
   const savedPost = await user.save();
-  console.log(savedPost);
+  //console.log(savedPost);
   res.send(savedPost);
 });
 

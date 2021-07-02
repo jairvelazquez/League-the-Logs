@@ -30,7 +30,7 @@ button.addEventListener("click", () => {
     .then((res) => res.json())
     .then((respuesta) => {
       localStorage.clear();
-      console.log(respuesta);
+      //console.log(respuesta);
       alert(respuesta.mensaje);
     })
     .catch((error) => console.error("Error:", error));
@@ -61,7 +61,7 @@ function handleResponse(dataMatches) {
 
     let summoner = getSummoner(match);
 
-    console.log(summoner);
+    //console.log(summoner);
 
     let campeon =
       summoner.championName === 'undefined'

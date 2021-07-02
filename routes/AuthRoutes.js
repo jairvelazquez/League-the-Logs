@@ -20,7 +20,7 @@ router.get("/gettoken", (req, res) => {
   jwt.verify(token, llave, (err, decoded) => {
     res.send(decoded.admin);
   });
-  console.log(token);
+  //console.log(token);
 });
 
 module.exports = router;

@@ -27,7 +27,7 @@ button.addEventListener("click", () => {
     .then((res) => res.json())
     .then((respuesta) => {
       localStorage.clear();
-      console.log(respuesta);
+      //console.log(respuesta);
       alert(respuesta.mensaje);
     })
     .catch((error) => console.error("Error:", error));
@@ -40,7 +40,7 @@ button2.addEventListener("click", (e) => {
   })
     .then((res) => res.json())
     .then((respuesta) => {
-      console.log(respuesta);
+      //console.log(respuesta);
       if (respuesta) {
         document.location.href = "profile.html";
       } else {
@@ -75,7 +75,7 @@ function handleResponseFromUser(responseFromAPI) {
     const cifra = responseFromAPI.matchesRegister;
     textoCifra.innerHTML = cifra;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     textoCifra.innerHTML = "cifra desconocida";
   }
 }
@@ -194,7 +194,7 @@ function fillDamageChart() {
 }
 
 function handleResponseFromDamage(responseFromAPI) {
-  console.log(responseFromAPI);
+  //console.log(responseFromAPI);
   let magico = 0;
   let fisico = 0;
   let verdadero = 0;
