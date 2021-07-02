@@ -1,4 +1,4 @@
-// Set new default font family and font color to mimic Bootstrap's default styling
+/*// Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
@@ -29,10 +29,14 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
+
+let labesForChart = getLabels();
+let dataForChart = getData();
+
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["3min", "6min", "9min", "12min", "15min", "18min", "21min", "24min", "27min", "30min", "33min", "35+min"],
+    labels: labesForChart,
     datasets: [{
       label: "Oro ganado",
       lineTension: 0.3,
@@ -46,7 +50,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 100, 500, 1000, 2000, 5000, 8000, 10000, 13000, 15000, 18000, 20000],
+      data: dataForChart,
     }],
   },
   options: {
@@ -116,3 +120,4 @@ var myLineChart = new Chart(ctx, {
     }
   }
 });
+*/
