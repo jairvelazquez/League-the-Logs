@@ -120,25 +120,30 @@ async function getDataMatches(matches) {
 async function fillDatabaseWithMatches(DataMatches, puuid) {
   const matchesInDatabase = await Games.find();
   for (let match of DataMatches) {
-    if (verifyNotRepeatedMatch(match.gameId, matchesInDatabase)) {
+    if (verifyNotRepeatedMatch(match.gameId,dataMatches, matchesInDatabase,puuid)) {
       fillSummonerGamesModel(match, puuid);
       fillBanModels(match, puuid);
       fillChampionsModel(match, puuid);
       fillDamageModel(match, puuid);
-      fillGamesModel(match);
+      fillGamesModel(match,puuid);
       fillObjectivesModel(match, puuid);
     }
   }
 }
 
-function verifyNotRepeatedMatch(gameId, matchesInDatabase) {
+function verifyNotRepeatedMatch(gameId,dataMatches, matchesInDatabase,puuid) {
   for (let i = 0; i < matchesInDatabase.length; i++) {
-    if (gameId === matchesInDatabase[i].id_game) {
+    if (gameId === matchesInDatabase[i].id_game && isTheSameSummoner(matchesInDatabase[i],dataMatches,puuid)) {
       console.log("Partida repetida, saltando registro");
       return false;
     }
   }
   return true;
+}
+
+function isTheSameSummoner(matchInDatabase,matchesFromRequest,puuid){
+  let summoner = getSummoner(matchesFromRequest,puuid);
+  return summoner.summonerName == matchInDatabase.summonerName ? true : false;
 }
 
 
@@ -195,7 +200,8 @@ async function fillDamageModel(match, puuid) {
   await fillDamageModel.save();
 }
 
-async function fillGamesModel(match) {
+async function fillGamesModel(match,puuid) {
+  let summoner = getSummoner(match, puuid);
   const game = await new Games({
     id_game: match.gameId,
     map: match.mapId,
@@ -205,6 +211,7 @@ async function fillGamesModel(match) {
     region: match.platformId,
     id_team1: match.teams[0].teamId,
     id_team2: match.teams[1].teamId,
+    summonerName: summoner.summonerName
   });
   await game.save();
 }
