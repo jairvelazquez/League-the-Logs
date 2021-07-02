@@ -5,11 +5,11 @@ const lblName = document.getElementById("profileName");
 const direccionPeticion = "http://localhost:3000/user/";
 const direccionPeticionSummonerGames =
   "http://localhost:3000/summonergames/get-games-by-summoner/";
+const direccionPeticionDamage = "http://localhost:3000/damage/get-damage-by-summoner/";
 const direccionAuth = "http://localhost:3000/actions";
 const direccionAuth2 = "http://localhost:3000/actions/gettoken";
 const direccionName = "http://localhost:3000/user/login";
-//const summonerName = localStorage.getItem("username");
-const summonerName = "elvuelodeicaro";
+const summonerName = localStorage.getItem("username");
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 let labesForChart = [];
@@ -113,18 +113,129 @@ function handleResponseFromSummonerGames(responseFromAPI) {
     } else {
       perdidas--;
     }
-    //responseFromAPI[i].win ? ganadas++ : perdidas--;
     winRate = responseFromAPI[i].win ? winRate + 100 : winRate;
   }
   promedioOro = promedioOro / partidas;
   promedioVision = promedioVision / partidas;
   winRate = winRate / partidas;
-  goldE.innerHTML = promedioOro;
-  vision.innerHTML = promedioVision;
-  winR.innerHTML = winRate + "%";
-  console.log(partidas);
+  goldE.innerHTML = promedioOro.toFixed(2);
+  vision.innerHTML = promedioVision.toFixed(2);
+  winR.innerHTML = winRate.toFixed(2) + "%";
   textoCifra.innerHTML = partidas;
   fillGoldChart(responseFromAPI);
+  fillDamageChart();
+  fillLanesChart(responseFromAPI);
+}
+function fillLanesChart(responseFromAPI) {
+  const botlane = document.getElementById("botlane");
+  const jungle = document.getElementById("jungle");
+  const mid = document.getElementById("mid");
+  const top = document.getElementById("top");
+  const barraBot = document.getElementById("barraBot");
+  const barraJg = document.getElementById("barraJg");
+  const barraMid = document.getElementById("barraMid");
+  const barraTop = document.getElementById("barraTop");
+  let partidasValidas = 0;
+  let contadorBot = 0;
+  let contadortp = 0;
+  let contadormid = 0;
+  let contadorjg = 0;
+  for (let i = 0; i < responseFromAPI.length; i++) {
+    switch (responseFromAPI[i].lane) {
+      case "BOTTOM":
+        contadorBot++;
+        partidasValidas++;
+        break;
+      case "MIDDLE":
+        contadormid++;
+        partidasValidas++;
+        break;
+      case "TOP":
+        contadortp++;
+        partidasValidas++;
+        break;
+      case "JUNGLE":
+        contadorjg++;
+        partidasValidas++;
+        break;
+      default:
+        break;
+    }
+  }
+  let porcentajeBot = (contadorBot * 100) / partidasValidas;
+  let porcentajeMid = (contadormid * 100) / partidasValidas;
+  let porcentajeTop = (contadortp * 100) / partidasValidas;
+  let porcentajeJg = (contadortp * 100) / partidasValidas;
+
+  botlane.innerHTML =porcentajeBot.toFixed(2);
+  jungle.innerHTML = porcentajeJg.toFixed(2);
+  mid.innerHTML = porcentajeMid.toFixed(2);
+  top.innerHTML =porcentajeTop.toFixed(2);
+
+  barraBot.setAttribute("style","width: ".concat(porcentajeBot.toString()+"%"));
+  barraMid.setAttribute("style","width: ".concat(porcentajeMid.toString()+"%"));
+  barraTop.setAttribute("style","width: ".concat(porcentajeTop.toString()+"%"));
+  barraJg.setAttribute("style","width: ".concat(porcentajeJg.toString()+"%"));
+}
+
+
+function fillDamageChart() {
+  fetch(direccionPeticionDamage + summonerName, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((responseFromAPI) => {
+      handleResponseFromDamage(responseFromAPI.damageBySummoner);
+    })
+    .catch((error) => console.log("Error:", error));
+}
+
+function handleResponseFromDamage(responseFromAPI) {
+  console.log(responseFromAPI);
+  let magico = 0;
+  let fisico = 0;
+  let verdadero = 0;
+  for (let i = 0; i < responseFromAPI.length; i++) {
+    magico = magico + responseFromAPI[i].magicDamage;
+    fisico = fisico + responseFromAPI[i].physicalDamage;
+    verdadero = verdadero + responseFromAPI[i].trueDamage;
+  }
+  fillDamageTableWithData(magico, fisico, verdadero);
+}
+function fillDamageTableWithData(magico, fisico, verdadero) {
+  var ctx = document.getElementById("myPieChart");
+  var myPieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ["Mágico", "Físico", "Verdadero"],
+      datasets: [{
+        data: [magico, fisico, verdadero],
+        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+        hoverBorderColor: "rgba(234, 236, 244, 1)",
+      }],
+    },
+    options: {
+      maintainAspectRatio: false,
+      tooltips: {
+        backgroundColor: "rgb(255,255,255)",
+        bodyFontColor: "#858796",
+        borderColor: '#dddfeb',
+        borderWidth: 1,
+        xPadding: 15,
+        yPadding: 15,
+        displayColors: false,
+        caretPadding: 10,
+      },
+      legend: {
+        display: false
+      },
+      cutoutPercentage: 80,
+    },
+  });
 }
 
 function fillGoldChart(summonerGames) {
@@ -162,9 +273,6 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   }
   return s.join(dec);
 }
-
-console.log(labesForChart);
-console.log(dataForChart);
 
 // Area Chart Example
 function createChart() {

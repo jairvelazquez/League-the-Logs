@@ -19,4 +19,25 @@ router.get('/', async function (req, res) {
     }
 })
 
+router.get('/get-damage-by-summoner/:summonerName', async function (req, res) {
+    try{
+        const damages = await Damage.find();
+        const damageBySummoner = await getDamageBySummoner(damages, req.params.summonerName);
+        res.json({damageBySummoner});
+        }catch(error){
+            console.log(error);
+            res.send(error);
+        }
+})
+
+async function getDamageBySummoner(damages,summonerName){
+    let damageBySummoner = [];
+    for(let i=0;i<damages.length;i++){
+        if(damages[i].summonerName === summonerName){
+            damageBySummoner.push(damages[i]);
+        }
+    }
+    return damageBySummoner;
+}
+
 module.exports = router;
