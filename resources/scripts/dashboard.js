@@ -165,7 +165,7 @@ function fillLanesChart(responseFromAPI) {
   let porcentajeBot = (contadorBot * 100) / partidasValidas;
   let porcentajeMid = (contadormid * 100) / partidasValidas;
   let porcentajeTop = (contadortp * 100) / partidasValidas;
-  let porcentajeJg = (contadortp * 100) / partidasValidas;
+  let porcentajeJg = (contadorjg * 100) / partidasValidas;
 
   botlane.innerHTML =porcentajeBot.toFixed(2);
   jungle.innerHTML = porcentajeJg.toFixed(2);
