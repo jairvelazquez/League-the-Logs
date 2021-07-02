@@ -23,4 +23,27 @@ router.get("/gettoken", (req, res) => {
   //console.log(token);
 });
 
+router.get("/change-password/:usrEmail", async (req, res) => {
+  try {
+    const user = await Users.find();
+    const userFound = findSummoner(user, req.params.usrEmail);
+    //console.log(userFound);
+      res.json({password: userFound.password});
+  } catch (error) {
+    console.log(error);
+    res.json({mensaje: error});
+  }
+
+});
+
+function findSummoner(users, email) {
+  let user;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].email === email) {
+      user = users[i];
+    }
+  }
+  return user;
+}
+
 module.exports = router;
