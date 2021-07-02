@@ -61,7 +61,15 @@ router.get("/register.html", function (req, res) {
   res.render("register");
 });
 router.get("/tables.html", function (req, res) {
-  res.render("tables");
+  if (typeof localStorage === "undefined" || localStorage === null) {
+    let LocalStorage = require("node-localstorage").LocalStorage;
+    localStorage = new LocalStorage("./scratch");
+  }
+  if (localStorage.getItem("token") === null) {
+    res.redirect("/");
+  } else {
+    res.render("tables");
+  }
 });
 router.get("/utilities-animation.html", function (req, res) {
   res.render("utilities-animation");

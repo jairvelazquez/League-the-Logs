@@ -8,7 +8,7 @@ const direccionPeticion = "https://la1.api.riotgames.com/lol/summoner/v4/summone
 // About page route.
 router.post('/:summonerName', async function (req, res) {
     //console.log(process.env.RIOT_TOKEN);
-    console.log(direccionPeticion.concat(req.params.summonerName));
+    //console.log(direccionPeticion.concat(req.params.summonerName));
     const options = {
         method: 'GET',
         uri: direccionPeticion.concat(req.params.summonerName),

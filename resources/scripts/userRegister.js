@@ -11,7 +11,7 @@ registerButton.addEventListener("click", () => {
   let summonerName = userName;
 
   const isValid = validaCampos(userName, email, password, repeatPassword);
-  console.log(buildedBody);
+  //console.log(buildedBody);
   if (isValid) {
     fetch(direccionPeticion, {
       method: "POST",
@@ -22,9 +22,8 @@ registerButton.addEventListener("click", () => {
     })
       .then((responseFromAPI) => console.log(responseFromAPI))
       .catch((error) => console.log(error));
-
-      direccionPeticionSummoner = direccionPeticionSummoner.concat(userName);
-      console.log(direccionPeticionSummoner);
+    direccionPeticionSummoner = direccionPeticionSummoner.concat(userName);
+    //console.log(direccionPeticionSummoner);
     fetch(direccionPeticionSummoner, {
       method: "POST",
       headers: {
@@ -63,6 +62,6 @@ function verifyResponse(responseFromAPI) {
   if (responseFromAPI.status == 200) {
     alert("Registro Correcto");
   }
-  //setTimeout(2000);
-  //document.location.href = "index.html";
+  setTimeout(2000);
+  document.location.href = "index.html";
 }

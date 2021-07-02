@@ -155,7 +155,7 @@ async function fillBanModels(match, puuid) {
   try {
     bans.bannedChamp = match.teams[1].bans[1].championId;
   } catch (error) {
-    console.log("Jugador no seleccionó baneo");
+    //console.log("Jugador no seleccionó baneo");
     bans.bannedChamp = 0;
   }
   bans.nombre = summoner.championName;
