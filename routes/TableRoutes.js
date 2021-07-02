@@ -22,7 +22,7 @@ router.get("/:summonerName", async function (req, res) {
     let puuid = await getPuid(req.params.summonerName);
     let matches = await getMatches(puuid);
     let DataMatches = await getDataMatches(matches);
-    fillDatabaseWithMatches(DataMatches, puuid);
+    await fillDatabaseWithMatches(DataMatches, puuid);
     res.json({ DataMatches });
   } catch (error) {
     console.log(error);
@@ -55,7 +55,7 @@ async function getPuid(summonerName) {
       .catch(function (err) {
         console.log(err);
       });
-  } catch (error) {}
+  } catch (error) { }
   return puid;
 }
 
@@ -83,7 +83,7 @@ async function getMatches(puid) {
       .catch(function (err) {
         console.log(err);
       });
-  } catch (error) {}
+  } catch (error) { }
   return matches;
 }
 
@@ -113,20 +113,34 @@ async function getDataMatches(matches) {
         .catch(function (err) {
           console.log(err);
         });
-    } catch (error) {}
+    } catch (error) { }
   }
   return dataMatches;
 }
-function fillDatabaseWithMatches(DataMatches, puuid) {
+async function fillDatabaseWithMatches(DataMatches, puuid) {
+  const matchesInDatabase = await Games.find();
   for (let match of DataMatches) {
-    fillSummonerGamesModel(match, puuid);
-    fillBanModels(match, puuid);
-    fillChampionsModel(match, puuid);
-    fillDamageModel(match, puuid);
-    fillGamesModel(match);
-    fillObjectivesModel(match, puuid);
+    if (verifyNotRepeatedMatch(match.gameId, matchesInDatabase)) {
+      fillSummonerGamesModel(match, puuid);
+      fillBanModels(match, puuid);
+      fillChampionsModel(match, puuid);
+      fillDamageModel(match, puuid);
+      fillGamesModel(match);
+      fillObjectivesModel(match, puuid);
+    }
   }
 }
+
+function verifyNotRepeatedMatch(gameId, matchesInDatabase) {
+  for (let i = 0; i < matchesInDatabase.length; i++) {
+    if (gameId === matchesInDatabase[i].id_game) {
+      console.log("Partida repetida, saltando registro");
+      return false;
+    }
+  }
+  return true;
+}
+
 
 async function fillSummonerGamesModel(match, puuid) {
   const summoner = getSummoner(match, puuid);
